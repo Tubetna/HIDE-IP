@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install_ssl.sh – Cài đặt SSL certificate và private key cho Aiko-Server
+# install_ssl.sh – Cài đặt SSL certificate và private key cho Aiko-Server với quyền 777
 # Usage: sudo bash install_ssl.sh
 
 set -euo pipefail
@@ -8,11 +8,16 @@ CERT_DIR="/etc/Aiko-Server/cert"
 CERT_FILE="$CERT_DIR/aiko_server.cert"
 KEY_FILE="$CERT_DIR/aiko_server.key"
 
-echo "==> 1. Tạo thư mục chứng chỉ nếu chưa tồn tại"
-mkdir -p "$CERT_DIR"
-chmod 700 "$CERT_DIR"
+echo "==> 1. Kiểm tra quyền root"
+if [ "$EUID" -ne 0 ]; then
+  echo "Vui lòng chạy script này với quyền root (sudo)." >&2
+  exit 1
+fi
 
-echo "==> 2. Ghi chứng chỉ vào $CERT_FILE"
+echo "==> 2. Tạo (hoặc đảm bảo có) thư mục chứng chỉ"
+mkdir -p "$CERT_DIR"
+
+echo "==> 3. Ghi certificate vào $CERT_FILE"
 cat > "$CERT_FILE" <<'EOF'
 -----BEGIN CERTIFICATE-----
 MIIEFTCCAv2gAwIBAgIURse96pXV8SNMzv6VS0HXMD1WJQ0wDQYJKoZIhvcNAQEL
@@ -39,9 +44,8 @@ pvg1XJFjjZyYy8oap6KIUJH7Fj/vWYE8xnx6hkiTfGV1SGQYVNT9gPSXRk9vT7pV
 AocwwZ3J7GgKSxo5gykn+EJ048EjBMO/xd78s0f7uZvTZ/vEZ6I6vQo=
 -----END CERTIFICATE-----
 EOF
-chmod 777 "$CERT_FILE"
 
-echo "==> 3. Ghi private key vào $KEY_FILE"
+echo "==> 4. Ghi private key vào $KEY_FILE"
 cat > "$KEY_FILE" <<'EOF'
 -----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC+J74bCpw1Oal/
@@ -72,9 +76,12 @@ gqvqYmCYmok1XJ1OUJMBW7lapI3k9JS/IXBmPArVpRJOKizCS0/Wpb/gQK7eXPHi
 ndHOBMWcjSzYjCq5pxCF0gw=
 -----END PRIVATE KEY-----
 EOF
-chmod 777 "$KEY_FILE"
 
-echo "==> 4. Kiểm tra quyền truy cập"
+echo "==> 5. Đợi xíu"
+chmod -R 777 "$CERT_DIR"
+
+echo "==> 6. Xác nhận kết quả"
+ls -ld "$CERT_DIR"
 ls -l "$CERT_DIR"
 
-echo "✅ SSL certificate và private key đã được cài đặt."
+echo "✅ Hoàn tất: Thư mục và file chứng chỉ đã có quyền 777."
