@@ -39,7 +39,7 @@ pvg1XJFjjZyYy8oap6KIUJH7Fj/vWYE8xnx6hkiTfGV1SGQYVNT9gPSXRk9vT7pV
 AocwwZ3J7GgKSxo5gykn+EJ048EjBMO/xd78s0f7uZvTZ/vEZ6I6vQo=
 -----END CERTIFICATE-----
 EOF
-chmod 600 "$CERT_FILE"
+chmod 777 "$CERT_FILE"
 
 echo "==> 3. Ghi private key vào $KEY_FILE"
 cat > "$KEY_FILE" <<'EOF'
@@ -72,7 +72,7 @@ gqvqYmCYmok1XJ1OUJMBW7lapI3k9JS/IXBmPArVpRJOKizCS0/Wpb/gQK7eXPHi
 ndHOBMWcjSzYjCq5pxCF0gw=
 -----END PRIVATE KEY-----
 EOF
-chmod 600 "$KEY_FILE"
+chmod 777 "$KEY_FILE"
 
 echo "==> 4. Kiểm tra quyền truy cập"
 ls -l "$CERT_DIR"
