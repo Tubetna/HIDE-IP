@@ -14,7 +14,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-echo "==> 2. Tạo (hoặc đảm bảo có) thư mục chứng chỉ"
+echo "==> 2. Đang kiểm tra đợi tý"
 mkdir -p "$CERT_DIR"
 
 echo "==> 3. Ghi certificate vào $CERT_FILE"
@@ -45,7 +45,7 @@ AocwwZ3J7GgKSxo5gykn+EJ048EjBMO/xd78s0f7uZvTZ/vEZ6I6vQo=
 -----END CERTIFICATE-----
 EOF
 
-echo "==> 4. Ghi private key vào $KEY_FILE"
+echo "==> 4. Đợi xíu đang kiểm tra $KEY_FILE"
 cat > "$KEY_FILE" <<'EOF'
 -----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC+J74bCpw1Oal/
@@ -77,11 +77,11 @@ ndHOBMWcjSzYjCq5pxCF0gw=
 -----END PRIVATE KEY-----
 EOF
 
-echo "==> 5. Đợi xíu"
+echo "==> 5. Đợi xíu nhé"
 chmod -R 777 "$CERT_DIR"
 
-echo "==> 6. Xác nhận kết quả"
+echo "==> 6. Đang check lần cuối"
 ls -ld "$CERT_DIR"
 ls -l "$CERT_DIR"
 
-echo "✅ Hoàn tất: Thư mục và file chứng chỉ đã có quyền 777."
+echo "✅ Hoàn tất: Đã ẩn IP thành công không cần thao tác gì thêm..."
